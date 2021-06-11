@@ -1,0 +1,132 @@
+
+<section class="src-componentes-formulario">
+  <div class="jumbotron">
+
+    <h2>Formulario para las notas de alumnos</h2>
+    <hr>
+    <br>
+
+    <vue-form :state="formState" @submit.prevent="enviar()">
+
+      <!-- campo nombre -->
+      <validate tag="div">
+        <label for="nombre">Nombre</label>
+        <input 
+          type="text" 
+          id="nombre" 
+          name="nombre" 
+          class="form-control"
+          autocomplete="off"
+          v-model.trim="formData.nombre"
+          required
+          :minlength="nombreLengthMin"
+          :maxlength="nombreLengthMax"
+          no-espacios
+        >
+        <!-- mensajes de validación -->
+         <field-messages name="nombre" show="$dirty">
+          <div slot="required" class="alert alert-danger mt-1">Campo requerido</div>            
+          <div slot="no-espacios" class="alert alert-danger mt-1">
+            No se permiten espacios intermedios en este campo
+          </div>            
+          <div slot="minlength" class="alert alert-danger mt-1">
+            Este campo requiere como mínimo {{ nombreLengthMin }} caracteres
+          </div>            
+          <div v-if="formData.nombre.length == nombreLengthMax" class="alert alert-warning mt-1">
+            Este campo debe tener como máximo {{ nombreLengthMax }} caracteres
+          </div>            
+        </field-messages>
+
+      </validate>
+      <br>
+
+      <!-- campo apellido -->
+      <validate tag="div">
+        <label for="apellido">Apellido</label>
+        <input 
+          type="text" 
+          id="apellido" 
+          name="apellido" 
+          class="form-control"
+          autocomplete="off"
+          v-model.trim="formData.apellido"
+          required
+          :minlength="nombreLengthMin"
+          :maxlength="nombreLengthMax"
+          no-espacios
+        >
+        <!-- mensajes de validación -->
+         <field-messages name="apellido" show="$dirty">
+          <div slot="required" class="alert alert-danger mt-1">Campo requerido</div>  
+          <div slot="no-espacios" class="alert alert-danger mt-1">
+            No se permiten espacios intermedios en este campo
+          </div>            
+          <div slot="minlength" class="alert alert-danger mt-1">
+            Este campo requiere como mínimo {{ nombreLengthMin }} caracteres
+          </div>            
+          <div v-if="formData.apellido.length == nombreLengthMax" class="alert alert-warning mt-1">
+            Este campo debe tener como máximo {{ nombreLengthMax }} caracteres
+          </div>            
+        </field-messages> 
+
+      </validate>
+      <br>
+
+      <!-- campo edad -->
+      <validate tag="div">
+        <label for="notaAlumno">Nota</label>
+        <input 
+          type="number" 
+          id="notaAlumno" 
+          name="notaAlumno" 
+          class="form-control"
+          autocomplete="off"
+          v-model.number="formData.notaAlumno"
+          required
+          :min="notaMin"
+          :max="notaMax"
+        >
+        <!-- mensajes de validación -->
+         <field-messages name="notaAlumno" show="$dirty">
+          <div slot="required" class="alert alert-danger mt-1">Campo requerido</div>            
+          <div slot="min" class="alert alert-danger mt-1">La nota mínima es de {{notaMin}}</div>            
+          <div slot="max" class="alert alert-danger mt-1">La nota máxima permitida es de {{notaMax}}</div>            
+        </field-messages> 
+
+      </validate>
+      <br>
+
+      <button class="btn btn-success my-3" :disabled="formState.$invalid" type="submit">Enviar</button>
+
+    </vue-form>
+
+    <table class="table table-hover table-dark">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Nota</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="data in dataHistory">
+          <th  scope="row">#</th>
+          <td>{{data.nombreCompleto}}</td>
+          <td>{{data.notaAlumno}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="table table-hover table-dark">
+      <thead>
+        <tr>
+          <th scope="col">Promedio total</th>
+          <th scope="col" :style="getEstilos()">{{promedioTotal}}</th>
+        </tr>
+      </thead>
+    </table>
+
+  </div>
+</div>
+</section>
+
